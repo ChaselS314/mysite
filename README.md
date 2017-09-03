@@ -18,3 +18,14 @@ python manage.py runserver
 - 在根目录创建`static`文件夹，将模板中的css和img文件夹拷贝到其中；在`settings.py`中，增加定义`STATICFILES_DIR=[os.path.join(BASE_DIR, 'static'),]`;在`index.html`中，增加`{% load static %}`,并将指向css和img的链接加上`static`声明。详见[文档](https://docs.djangoproject.com/en/1.11/howto/static-files/)
 - 这个时候就可以显示出和Pure展示的一样的效果了
 - 新增`base.html`，将基础框架从`index.html`抽离出来。
+## Day 2
+### 创建Model : blogs
+```shell
+python manage.py startapp blogs
+```
+### 创建管理员账户
+```shell
+python manage.py createsuperuser
+```
+### 完善Model
+- 定义类Blog和Label，多对多的关系
