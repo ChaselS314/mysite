@@ -8,7 +8,6 @@ class Label(models.Model):
     name,blogs
     '''
     name = models.CharField(max_length=50)
-    blogs = models.ManyToManyField(Blog)
 
     def __str__(self):
         return self.name
