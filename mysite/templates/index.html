@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block content %}
 <!-- A wrapper for all the blog posts -->
             <div class="posts">
@@ -8,7 +8,7 @@
                 <!-- A single blog post -->
                 <section class="post">
                     <header class="post-header">
-                        <img width="48" height="48" alt="Tilo Mitra&#x27;s avatar" class="post-avatar" src="img/common/tilo-avatar.png">
+                        <img width="48" height="48" alt="Tilo Mitra&#x27;s avatar" class="post-avatar" src={% static "img/common/tilo-avatar.png" %}>
 
                         <h2 class="post-title">Introducing Pure</h2>
 
@@ -30,7 +30,7 @@
 
                 <section class="post">
                     <header class="post-header">
-                        <img width="48" height="48" alt="Eric Ferraiuolo&#x27;s avatar" class="post-avatar" src="img/common/ericf-avatar.png">
+                        <img width="48" height="48" alt="Eric Ferraiuolo&#x27;s avatar" class="post-avatar" src={% static "img/common/ericf-avatar.png" %}>
 
                         <h2 class="post-title">Everything You Need to Know About Grunt</h2>
 
@@ -48,7 +48,7 @@
 
                 <section class="post">
                     <header class="post-header"> 
-                        <img width="48" height="48" alt="Reid Burke&#x27;s avatar" class="post-avatar" src="img/common/reid-avatar.png">
+                        <img width="48" height="48" alt="Reid Burke&#x27;s avatar" class="post-avatar" src={% static "img/common/reid-avatar.png" %}>
 
                         <h2 class="post-title">Photos from CSSConf and JSConf</h2>
 
@@ -88,7 +88,7 @@
 
                 <section class="post">
                     <header class="post-header">
-                        <img width="48" height="48" alt="Andrew Wooldridge&#x27;s avatar" class="post-avatar" src="img/common/andrew-avatar.png">
+                        <img width="48" height="48" alt="Andrew Wooldridge&#x27;s avatar" class="post-avatar" src={% static "img/common/andrew-avatar.png" %}>
 
                         <h2 class="post-title">YUI 3.10.2 Released</h2>
 
