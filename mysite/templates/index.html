@@ -19,6 +19,9 @@
                     <p>
                         {{ blog.content | custom_markdown | truncatewords_html:30 }}
                     </p>
+                    <p>
+                        <a href="{% url "detail" id=blog.id %}">查看全文</a>
+                    </p>
                 </div>
         </section>
     {% endfor %}
