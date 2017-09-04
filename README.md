@@ -80,8 +80,7 @@ python manage.py runserver
 ```
 - 重写views.home(),传入参数`blogs_list`
 - 至此，可以在主页显示出测试数据了
-### 为每个blog创建单独的页面显示
-#### 使用动态URL，为每个blog生成一个唯一的URL
+### 使用动态URL，为每个blog创建单独的页面显示
 - 更新mysite/urls.py:
 ```python
 urlpatterns = [
