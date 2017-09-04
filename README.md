@@ -29,3 +29,25 @@ python manage.py createsuperuser
 ```
 ### 完善Model
 - 定义类Blog和Label，多对多的关系
+## Day 3
+### 测试Model
+在python django shell中测试model : (不知道如何在命令行给外键赋值)
+or:
+在admin.py中注册两个模型，通过admin网页添加数据做测试
+- 在admin.py中：
+```python
+from .models import Blog, Label
+
+admin.site.register(Blog)
+admin.site.register(Label)
+```
+- 在终端更新数据库:
+```shell
+python manage.py makemigrations
+python manage.py migrate
+python manage.py runserver
+```
+- 登陆admin网页，添加测试数据
+### 显示BLog
+- 在blogsapp中新建templates文件夹，添加blog.html
+- 在views.py和urls.py中补充显示逻辑
