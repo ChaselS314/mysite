@@ -5,7 +5,7 @@
     {% for blog in blogs_list %}
         <section class="blog">
             <header class="blog-header">
-                <h2 class="blog-title">{{ blog.title }}</h2>
+                <h2 class="blog-title"><a href="{% url "detail" id=blog.id %}">{{ blog.title }}</a></h2>
 
                     <p class="blog-meta">
                         Time:  <a class="blog-author" href="#">{{ blog.publication_date }}</a>
