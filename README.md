@@ -198,3 +198,41 @@ def custom_markdown(value):
 ...
 ```
 增加一个图像作为主题图像，并内置返回主页的链接。
+### 增加分页功能
+- 修改mysite/views.py:
+```python
+...
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger # 分页
+...
+def home(request):
+    blogs = Blog.objects.all()
+    paginator = Paginator(blogs, 5)
+    page = request.GET.get('page')
+    try:
+        blogs_list = paginator.page(page)
+    except PageNotAnInteger :
+        blogs_list = paginator.page(1)
+    except EmptyPage:
+        blogs_list = paginator.paginator(paginator.num_pages)
+
+    return render(request, 'index.html', {'blogs_list' : blogs_list})
+```
+- 更新index.html:
+```html
+...
+{% if blogs_list.object_list and blogs_list.paginator.num_pages > 1 %}
+      <div>
+      <ul class="pager">
+      {% if blogs_list.has_previous %}
+        <a href="?page={{ blogs_list.previous_page_number }}">上一页</a>
+      {% endif %}
+
+      {% if blogs_list.has_next %}
+        <a href="?page={{ blogs_list.next_page_number }}">下一页</a>
+      {% endif %}
+      </ul>
+      </div>
+    {% endif %}
+...
+```
+- 至此，增加了分页功能
