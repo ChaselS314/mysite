@@ -145,3 +145,34 @@ def detail(request, id):
 ...
 ```
 - 至此，完成每个blog的单独页面显示
+### 使博文显示支持Markdown格式
+- 首先要安装python的markdown包，它可以将Markdown格式的文本转化为HTML文本
+- 在blogs-app中新建`templatetags`文件夹，在其中添加`__init__.py`，使其成为一个包
+- 在templatetags中添加custom_markdown.py：
+```python
+import markdown
+
+from django import template
+from django.template.defaultfilters import stringfilter
+from django.utils.encoding import force_text
+from django.utils.safestring import mark_safe
+
+register = template.Library()  #自定义filter时必须加上
+
+
+@register.filter(is_safe=True)  #注册template filter
+@stringfilter  #希望字符串作为参数
+def custom_markdown(value):
+    return mark_safe(markdown.markdown(value,
+        extensions = ['markdown.extensions.fenced_code', 'markdown.extensions.codehilite'],
+        safe_mode=True, enable_attributes=False))
+```
+- 更新blog.html：
+```html
+...
+{% load custom_markdown %}
+...
+{{ blog.content | custom_markdown }}
+...
+```
+- 至此，文章单独显示的界面就可以支持Markdown格式了。
