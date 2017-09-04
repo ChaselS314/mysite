@@ -176,3 +176,25 @@ def custom_markdown(value):
 ...
 ```
 - 至此，文章单独显示的界面就可以支持Markdown格式了。
+### 优化主页的显示效果
+- 更新index.html:
+```html
+{{ blog.content | custom_markdown | truncatewords_html:30 }}
+```
+限制每篇blog在主页显示的长度。
+- 更新index.html
+```html
+<p>
+    <a href="{% url "detail" id=blog.id %}">查看全文</a>
+</p>
+```
+增加**查看全文**链接。
+- 更新base.html:
+```html
+...
+ <a href="/">
+    <img src={% static "img/monkey.png" %} width="90" height="100">
+</a>
+...
+```
+增加一个图像作为主题图像，并内置返回主页的链接。
