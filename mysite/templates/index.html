@@ -25,5 +25,19 @@
                 </div>
         </section>
     {% endfor %}
+
+    {% if blogs_list.object_list and blogs_list.paginator.num_pages > 1 %}
+      <div>
+      <ul class="pager">
+      {% if blogs_list.has_previous %}
+        <a href="?page={{ blogs_list.previous_page_number }}">上一页</a>
+      {% endif %}
+
+      {% if blogs_list.has_next %}
+        <a href="?page={{ blogs_list.next_page_number }}">下一页</a>
+      {% endif %}
+      </ul>
+      </div>
+    {% endif %}
 </div><!-- /.blog-blog -->
 {% endblock %}
