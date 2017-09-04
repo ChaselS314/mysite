@@ -49,5 +49,34 @@ python manage.py runserver
 ```
 - 登陆admin网页，添加测试数据
 ### 显示BLog
-- 在blogsapp中新建templates文件夹，添加blog.html
-- 在views.py和urls.py中补充显示逻辑
+- 修改index.html如下:
+```html
+{% extends "base.html" %}
+
+{% block content %}
+<div class="blogs">
+    {% for blog in blogs_list %}
+        <section class="blog">
+            <header class="blog-header">
+                <h2 class="blog-title">{{ blog.title }}</h2>
+
+                    <p class="blog-meta">
+                        Time:  <a class="blog-author" href="#">{{ blog.publication_date }}</a>
+                        {% for label in blog.labels.all %}
+                        <a class="blog-category blog-category-js" href="#">{{ label }}</a>
+                        {% endfor %} 
+                    </p>
+            </header>
+
+                <div class="blog-description">
+                    <p>
+                        {{ blog.content }}
+                    </p>
+                </div>
+        </section>
+    {% endfor %}
+</div><!-- /.blog-blog -->
+{% endblock %}
+```
+- 重写views.home(),传入参数`blogs_list`
+- 至此，可以在主页显示出测试数据了
