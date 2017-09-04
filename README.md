@@ -80,3 +80,69 @@ python manage.py runserver
 ```
 - 重写views.home(),传入参数`blogs_list`
 - 至此，可以在主页显示出测试数据了
+### 为每个blog创建单独的页面显示
+#### 使用动态URL，为每个blog生成一个唯一的URL
+- 更新mysite/urls.py:
+```python
+urlpatterns = [
+    url(r'^admin/', admin.site.urls),
+    url(r'^$', views.home),
+    url(r'^blog/', include('blogs.urls')),
+]
+```
+- 更新blogs/urls.py
+```python
+from django.conf.urls import url, include
+
+from . import views
+
+urlpatterns = [
+    url(r'^(?P<id>\d+)/$', views.detail, name="detail"),
+]
+```
+- 更新blogs/views.py
+```python
+from django.shortcuts import render
+from django.http import Http404
+# Create your views here.
+from .models import Blog
+
+def detail(request, id):
+    try:
+        blog = Blog.objects.get(id=str(id))
+    except Blog.DoesNotExist:
+        raise Http404
+    return render(request, 'blogs/blog.html', {'blog':blog})
+```
+- 新建blogs/templates/blog.html
+```html
+{% extends "base.html" %}
+
+{% block content %}
+<div class="blog">
+    <section class="blog">
+        <header class="blog-header">
+            <h1 class="blog-title">{{ blog.title }}</h1>
+                <p class="blog-meta">
+                    Time:  <a class="blog-author" href="#">{{ blog.publication_date }}</a>
+                    {% for label in blog.labels.all %}
+                    <a class="blog-category blog-category-js" href="#">{{ label }}</a>
+                    {% endfor %} 
+                </p>
+        </header>
+        <div class="blog-description">
+            <p>
+                {{ blog.content }}
+            </p>
+        </div>
+    </section>   
+</div><!-- /.blog-blog -->
+{% endblock %}
+```
+- 更新index.html,更新超链接:
+```html
+...
+<h2 class="blog-title"><a href="{% url "detail" id=blog.id %}">{{ blog.title }}</a></h2>
+...
+```
+- 至此，完成每个blog的单独页面显示
