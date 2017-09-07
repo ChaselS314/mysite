@@ -8,7 +8,7 @@
                 <h2 class="blog-title"><a href="{% url "detail" id=blog.id %}">{{ blog.title }}</a></h2>
 
                     <p class="blog-meta">
-                        Time:  <a class="blog-author" href="#">{{ blog.publication_date }}</a>
+                        Time:  <a class="blog-author" href="#">{{ blog.publication_date | date:"Y M d" }}</a>
                         {% for label in blog.labels.all %}
                         <a class="blog-category blog-category-js" href="#">{{ label }}</a>
                         {% endfor %} 
