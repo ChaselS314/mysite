@@ -236,3 +236,18 @@ def home(request):
 ...
 ```
 - 至此，增加了分页功能
+## Day 4
+### 优化主页标题栏的显示
+修改`index.html`:
+```html
+...
+<p class="blog-meta">
+    <a href="#">{{ blog.author }}</a>
+    <a class="blog-author" href="#">{{ blog.publication_date | date:"Y M d" }}</a>
+    {% for label in blog.labels.all %}
+    <a class="blog-category blog-category-js" href="#">{{ label }}</a>
+    {% endfor %} 
+</p>
+...
+```
+增加作者的显示，并修改日期的显示格式
