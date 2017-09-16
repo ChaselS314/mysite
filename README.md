@@ -251,3 +251,43 @@ def home(request):
 ...
 ```
 增加作者的显示，并修改日期的显示格式
+## Day 5
+### 优化Markdown的显示效果
+- 下载[github-markdown.css](https://github.com/sindresorhus/github-markdown-css)
+- 将css文件保存在`static/css`目录下
+- 修改`base.html`，按照[指导](https://github.com/sindresorhus/github-markdown-css)添加代码:
+```html
+...
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href={% static "css/github-markdown.css" %}>
+<style>
+    .markdown-body {
+        box-sizing: border-box;
+        min-width: 200px;
+        max-width: 980px;
+        margin: 0 auto;
+        padding: 45px;
+    }
+
+    @media (max-width: 767px) {
+        .markdown-body {
+            padding: 15px;
+        }
+    }
+</style>
+...
+```
+- 继续修改`base.html`，在`block content`上添加css类的声明，表示我们期望在`block content`中使用css样式：
+```html
+...
+<div class="content pure-u-1 pure-u-md-3-4">
+        <div>
+            <div class="markdown-body">
+            {% block content %}
+            {% endblock %}
+            </div>
+            <div class="footer">
+                <div class="pure-menu pure-menu-horizontal">
+...
+```
+- 这样，即可由`custom_markdown`将markdown文本转换为html文本，再通过css样式表将其在网页上合理的展示出来。
