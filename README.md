@@ -515,5 +515,62 @@ git push heroku master
 
 ### 发布完成！
 
+## Day 7 使用自己的域名
 
+### 购买域名
 
+我是在[godaddy](https://ca.godaddy.com/)上买的。
+
+### 配置Heroku使用自己的域名
+
+> Refer: [Custom Domain Names for Apps](https://devcenter.heroku.com/articles/custom-domains)
+
+#### 认识概念：
+
+- **domain** or **domain name**: full name used to access an app (in words, not with an IP address). For example, `www.yourcustomdomain.com`
+- **subdomain**: the `www` in `www.yourcustomdomain.com`
+- **root domain** (or naked, bare, or zone apex domain): the 'yourcustomdomain.com’ in 'www.yourcustomdomain.com’
+- **wildcard domain**: domains that match any subdomain, represented as `*.yourcustomdomain.com`
+- **Domain registration service**: company that lets your buy and register a custom domain name
+- **DNS provider**: company that maintains the DNS servers that translate a custom domain name to a destination ('DNS Target’). The fields are often called CNAME, ALIAS, ANAME, or A records. Only the first three work with Heroku apps, as A records require an IP address and Heroku apps do not have stable inbound IP addresses.
+- **Heroku Domain**: Heroku term for default domain given to each app. Has the form `[name of app].herokuapp.com`
+- **DNS Target**: Heroku term for the Heroku Domain to give to a DNS Provider (e.g., in a CNAME record) to be the destination for a custom domain name.
+
+#### 查看当前域名
+
+```shell
+heroku domains
+```
+
+#### 使用subdomain定制自己的网站
+
+```shell
+$ heroku domains:add www.example.com
+Adding www.example.com to ⬢ example-app... done
+ ▸    Configure your app's DNS provider to point to the DNS Target
+ ▸    www.example.com.herokudns.com.
+ ▸    For help, see https://devcenter.heroku.com/articles/custom-domains
+
+The domain www.example.com has been enqueued for addition
+ ▸    Run heroku domains:wait 'www.example.com' to wait for completion
+```
+
+##### 为subdomains配置DNS
+
+- 打开Godaddy，个人页面，manage Domains，manage DNS
+- 删除所有默认的`CNAME`
+- 增加`CNAME`,`www`,`www.example.com.herokudns.com`
+- 使用`host`命令查看DNS是否已经转移，这需要一段时间。出现以下信息说明已经完成:
+
+```shell
+$ host www.example.com
+www.example.com is an alias for www.example.com.herokudns.com.
+...
+```
+
+#### 配置root domain
+
+- 打开Godaddy，个人页面，manage Domains，use your domain
+- connect to existing website,填写上一步配置好的subdomain
+
+### 完成。
