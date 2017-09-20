@@ -574,3 +574,18 @@ www.example.com is an alias for www.example.com.herokudns.com.
 - connect to existing website,填写上一步配置好的subdomain
 
 ### 完成。
+
+## Day 8
+### Code Highlighting
+网上有很多code highlighting的js代码，这是我用的[highlight.js](https://highlightjs.org/)
+- 在`base.html`中增加代码:
+```html
+...
+<link rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+...
+```
+- *style*可以自己修改，可选类型在网站上都有。
+- 为什么我的显示效果怪怪的。。
