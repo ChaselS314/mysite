@@ -588,4 +588,57 @@ www.example.com is an alias for www.example.com.herokudns.com.
 ...
 ```
 - *style*可以自己修改，可选类型在网站上都有。
-- 为什么我的显示效果怪怪的。。
+
+## Day 9
+
+### Debug Error 500
+
+现在的网站存在一个问题: 当DEBUG = Fasle时，访问网站会出现 ERROR 500。
+查找了很多资料，发现问题的原因主要有(不限于)一下三种:
+- 没有将域名加入到ALLOWED_HOSTS中，低级错误，我不属于这种: )
+- static文件路径配置错误，导致一些static文件发生import错误。配置的方法参考[官网说明](https://docs.djangoproject.com/en/1.11/howto/static-files/) ，很遗憾我也不属于这种
+- 使用了`whitenoise`的压缩方法配置了`STATICFILES_STORAGE`，导致了错误，找不到需要的static文件。
+> 解决方法：注释掉类似于`STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'`的代码即可。我属于这种，摸不着头脑。
+
+在查找问题时发现了一个tips：DEBUG模式下，Django会在控制台输出log信息，可以方便的定位问题。但是在非DEBUG模式下，控制台不输出任何信息，这个时候很难定位问题。
+
+> 解决方法：在`settings.py`中加入以下代码:
+>
+> ```python
+> LOGGING = {
+>     'version': 1,
+>     'disable_existing_loggers': False,
+>     'formatters': {
+>         'verbose': {
+>             'format' : "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
+>             'datefmt' : "%d/%b/%Y %H:%M:%S"
+>         },
+>         'simple': {
+>             'format': '%(levelname)s %(message)s'
+>         },
+>     },
+>     'handlers': {
+>         'file': {
+>             'level': 'DEBUG',
+>             'class': 'logging.FileHandler',
+>             'filename': 'mysite.log',
+>             'formatter': 'verbose'
+>         },
+>     },
+>     'loggers': {
+>         'django': {
+>             'handlers':['file'],
+>             'propagate': True,
+>             'level':'DEBUG',
+>         },
+>         'MYAPP': {
+>             'handlers': ['file'],
+>             'level': 'DEBUG',
+>         },
+>     }
+> }
+> ```
+>
+> 这会将log信息输出到指定文件中`mysite.log`。
+
+
