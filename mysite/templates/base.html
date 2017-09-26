@@ -1,11 +1,6 @@
 <!doctype html>
 {% load static %}
-
-<link rel="stylesheet"
-      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
-
+{# markdown parser #}
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href={% static "css/github-markdown.css" %}>
 <style>
@@ -23,7 +18,13 @@
         }
     }
 </style>
+{# Code highlighting #}
+<link rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
 
+<link rel="stylesheet" href={% static "css/button.css" %}>
 
 <html lang="en">
 <head>
@@ -71,7 +72,7 @@
                         <a class="pure-button" href="https://www.zhihu.com/people/tu-si-ji-he-jiu-liao">Zhihu</a>
                     </li>
                     <li class="nav-item">
-                        <a class="pure-button" href="https://github.com/ChaselS314">Github</a>
+                        <a class="pure-button" href="https://github.com/Chen-Su">Github</a>
                     </li>
                 </ul>
             </nav>
@@ -87,9 +88,9 @@
             <div class="footer">
                 <div class="pure-menu pure-menu-horizontal">
                     <ul>
-                        <li class="pure-menu-item"><a href="http://purecss.io/" class="pure-menu-link">About</a></li>
+                        <li class="pure-menu-item"><a href="https://github.com/Chen-Su" class="pure-menu-link">About</a></li>
                         <li class="pure-menu-item"><a href="https://twitter.com/ChaselS314/" class="pure-menu-link">Twitter</a></li>
-                        <li class="pure-menu-item"><a href="https://twitter.com/ChaselS314/" class="pure-menu-link">GitHub</a></li>
+                        <li class="pure-menu-item"><a href="https://github.com/Chen-Su" class="pure-menu-link">GitHub</a></li>
                     </ul>
                 </div>
             </div>
