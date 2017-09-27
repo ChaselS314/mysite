@@ -587,7 +587,7 @@ www.example.com is an alias for www.example.com.herokudns.com.
 <script>hljs.initHighlightingOnLoad();</script>
 ...
 ```
-- *style*可以自己修改，可选类型在网站上都有。
+ *style*可以自己修改，可选类型在网站上都有。
 
 ## Day 9
 
@@ -598,47 +598,87 @@ www.example.com is an alias for www.example.com.herokudns.com.
 - 没有将域名加入到ALLOWED_HOSTS中，低级错误，我不属于这种: )
 - static文件路径配置错误，导致一些static文件发生import错误。配置的方法参考[官网说明](https://docs.djangoproject.com/en/1.11/howto/static-files/) ，很遗憾我也不属于这种
 - 使用了`whitenoise`的压缩方法配置了`STATICFILES_STORAGE`，导致了错误，找不到需要的static文件。
-> 解决方法：注释掉类似于`STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'`的代码即可。我属于这种，摸不着头脑。
+
+**解决方法**：注释掉类似于`STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'`的代码即可。我属于这种，摸不着头脑。
 
 在查找问题时发现了一个tips：DEBUG模式下，Django会在控制台输出log信息，可以方便的定位问题。但是在非DEBUG模式下，控制台不输出任何信息，这个时候很难定位问题。
 
-> 解决方法：在`settings.py`中加入以下代码:
->
-> ```python
-> LOGGING = {
->     'version': 1,
->     'disable_existing_loggers': False,
->     'formatters': {
->         'verbose': {
->             'format' : "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
->             'datefmt' : "%d/%b/%Y %H:%M:%S"
->         },
->         'simple': {
->             'format': '%(levelname)s %(message)s'
->         },
->     },
->     'handlers': {
->         'file': {
->             'level': 'DEBUG',
->             'class': 'logging.FileHandler',
->             'filename': 'mysite.log',
->             'formatter': 'verbose'
->         },
->     },
->     'loggers': {
->         'django': {
->             'handlers':['file'],
->             'propagate': True,
->             'level':'DEBUG',
->         },
->         'MYAPP': {
->             'handlers': ['file'],
->             'level': 'DEBUG',
->         },
->     }
-> }
-> ```
->
-> 这会将log信息输出到指定文件中`mysite.log`。
+**解决方法**：在`settings.py`中加入以下代码:
 
+```python
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format' : "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
+            'datefmt' : "%d/%b/%Y %H:%M:%S"
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'mysite.log',
+            'formatter': 'verbose'
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers':['file'],
+            'propagate': True,
+            'level':'DEBUG',
+        },
+        'MYAPP': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+        },
+    }
+}
+```
+
+这会将log信息输出到指定文件中`mysite.log`。
+
+### 改善显示效果
+
+- 注释掉index.html中的ul标签，是"上一页"显示的位置变得正常:
+```html
+...
+ <div>
+      {# <ul class="pager"> #}
+      {% if blogs_list.has_previous %}
+        <a href="?page={{ blogs_list.previous_page_number }}" class="myButton">上一页</a>
+      {% endif %}
+
+      {% if blogs_list.has_next %}
+        <a href="?page={{ blogs_list.next_page_number }}" class="myButton">下一页</a>
+      {% endif %}
+      {# </ul> #}
+      </div>
+...
+```
+- 使用自定义的按钮样式，使它变得好看一点，自定义按钮的网址很多，比如[这个](http://www.bestcssbuttongenerator.com/)
+
+## Day 10
+
+### 定制自己的404页面
+
+查阅[Django documents](https://docs.djangoproject.com/en/1.11/topics/http/views/)，有对定制404页面的详细说明:
+
+> In order to show customized HTML when Django returns a 404, you can create an HTML template named `404.html` and place it in the top level of your template tree. This template will then be served when [`DEBUG`](https://docs.djangoproject.com/en/1.11/ref/settings/#std:setting-DEBUG) is set to `False`.
+>
+> When [`DEBUG`](https://docs.djangoproject.com/en/1.11/ref/settings/#std:setting-DEBUG) is `True`, you can provide a message to `Http404` and it will appear in the standard 404 debug template. Use these messages for debugging purposes; they generally aren’t suitable for use in a production 404 template.
+
+所以，在`/root/templates/`目录添加自己的`404.html`即可。
+
+```html
+{% extends "base.html" %}
+{% block content %}
+<h1>404 Not Found.</h1>
+<h2><a href="/" class="myButton">Return Homepage</a></h2>
+{% endblock %}
+```
 
